@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, si
 import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
 // 2. Configuration
-// TODO: PASTE YOUR KEYS FROM FIREBASE CONSOLE HERE
+// TODO: PASTE YOUR KEYS FROM FIREBASE CONSOLE HERE AGAIN
 const firebaseConfig = {
   apiKey: "AIzaSyC54VFlexrVF70VS5gXlSc_Wb25hbjdoEE",
   authDomain: "pulse-task-manager-a91f5.firebaseapp.com",
@@ -19,7 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const appId = "pulse-web-app"; // You can leave this as is
+const appId = "pulse-web-app";
 
 // 3. State
 let currentUser = null;
@@ -102,7 +102,6 @@ let unsubscribe = null;
 function startListening(uid) {
   if (unsubscribe) unsubscribe();
   
-  // Create a query to order by time
   const q = query(
     collection(db, 'artifacts', appId, 'users', uid, 'tasks'), 
     orderBy('createdAt', 'desc')
@@ -135,11 +134,10 @@ async function handleAddOrUpdate() {
     await addDoc(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'tasks'), {
       name: text,
       priority: prioritySelect.value,
-      status: statusSelect.value, // pending, in-progress, done
+      status: statusSelect.value, 
       createdAt: serverTimestamp()
     });
     taskInput.value = '';
-    // Reset defaults
     statusSelect.value = 'pending';
     prioritySelect.value = 'medium';
   }
@@ -183,6 +181,16 @@ window.changeStatus = async (id, newStatus) => {
   });
 }
 
+// NEW: Toggle Done Logic
+window.toggleDone = async (id, currentStatus) => {
+  // If currently done, go back to pending. Otherwise, mark done.
+  const newStatus = currentStatus === 'done' ? 'pending' : 'done';
+  
+  await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'tasks', id), {
+    status: newStatus
+  });
+};
+
 // 8. Filters & Rendering
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -213,7 +221,13 @@ function render() {
     filtered.forEach(task => {
       const li = document.createElement('li');
       li.className = 'task';
+      
+      // Updated HTML with Check Button
       li.innerHTML = `
+        <button class="check-btn ${task.status === 'done' ? 'is-done' : ''}" onclick="toggleDone('${task.id}', '${task.status}')">
+          <i data-lucide="check" width="14" stroke-width="3"></i>
+        </button>
+
         <div class="task-content">
           <div class="task-name" style="${task.status === 'done' ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">${escapeHtml(task.name)}</div>
           <div class="task-meta">

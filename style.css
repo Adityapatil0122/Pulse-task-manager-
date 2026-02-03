@@ -227,3 +227,29 @@ body {
 /* Progress Ring */
 .progress-container { position: relative; width: 40px; height: 40px; }
 .progress-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted); }
+.check-btn {
+  background: transparent;
+  border: 2px solid var(--text-muted);
+  border-radius: 50%; /* Circle shape */
+  width: 24px;
+  height: 24px;
+  min-width: 24px; /* Prevent shrinking */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 12px; /* Space between check and text */
+  color: transparent; /* Hide tick when not done */
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.check-btn:hover {
+  border-color: var(--accent);
+}
+
+.check-btn.is-done {
+  background: var(--accent-success);
+  border-color: var(--accent-success);
+  color: white; /* Show tick when done */
+}
