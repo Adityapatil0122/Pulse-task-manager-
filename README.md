@@ -9,10 +9,9 @@
     <h1>Pulse - Task Management Application</h1>
     <p>Pulse is a modern, minimalist task management application built to streamline personal productivity. It fulfills the full-stack assignment requirements including secure authentication, real-time database persistence, and status tracking.</p>    
     <div class="links-box">
-        <strong>🚀 Live Demos</strong>
+        <strong>🚀 Live Demo</strong>
         <ul>
-            <li>Netlify (Primary): <a href="https://adityapatilmadetaskmanageryoowsp.netlify.app/" target="_blank">https://adityapatilmadetaskmanageryoowsp.netlify.app/</a></li>
-            <li>GitHub Pages: <a href="https://adityapatil0122.github.io/Pulse-task-manager-/" target="_blank">https://adityapatil0122.github.io/Pulse-task-manager-/</a></li>
+            <li>Netlify (Primary): <a href="https://6981f927b020430008ff4bc6--adityapatilmadetaskmanageryoowsp.netlify.app/" target="_blank">https://adityapatilmadetaskmanageryoowsp.netlify.app/</a></li>
         </ul>
     </div>
     <h2>🛠️ Tech Stack</h2>
